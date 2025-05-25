@@ -3,7 +3,11 @@ import { IconEdit } from "@tabler/icons-react";
 import { useWorkStore } from "../../work.store";
 
 export function WorkEntriesTable() {
-  const { workEntries, openEntryForm } = useWorkStore();
+  const { workEntries, goals, openEntryForm } = useWorkStore();
+
+  const getGoalTitle = (goalId: string) => {
+    return goals.find((goal) => goal.id === goalId)?.title || goalId;
+  };
 
   return (
     <Table>
@@ -12,6 +16,7 @@ export function WorkEntriesTable() {
           <Table.Th>Date</Table.Th>
           <Table.Th>Hours Worked</Table.Th>
           <Table.Th>Money Earned</Table.Th>
+          <Table.Th>Goal</Table.Th>
           <Table.Th></Table.Th>
         </Table.Tr>
       </Table.Thead>
@@ -21,6 +26,7 @@ export function WorkEntriesTable() {
             <Table.Td>{entry.date}</Table.Td>
             <Table.Td>{entry.hoursWorked}</Table.Td>
             <Table.Td>{entry.moneyEarned}€</Table.Td>
+            <Table.Td>{getGoalTitle(entry.goalId)}</Table.Td>
             <Table.Td>
               <ActionIcon
                 variant="subtle"
