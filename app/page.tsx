@@ -1,101 +1,173 @@
-import Image from "next/image";
+"use client";
+
+import {
+  Title,
+  Container,
+  Progress,
+  Text,
+  Group,
+  Table,
+  Button,
+  Modal,
+  TextInput,
+  NumberInput,
+  Stack,
+  ActionIcon,
+} from "@mantine/core";
+import { useWorkStore } from "./work-store";
+import { useState, useEffect } from "react";
+import { IconEdit } from "@tabler/icons-react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { workEntries, addWorkEntry, updateWorkEntry } = useWorkStore();
+  const totalMoneyEarned = workEntries.reduce(
+    (sum, entry) => sum + entry.moneyEarned,
+    0
+  );
+  const totalTuition = 2000;
+  const tuitionPercentage = (totalMoneyEarned / totalTuition) * 100;
+  const [opened, setOpened] = useState(false);
+  const [date, setDate] = useState("");
+  const [hours, setHours] = useState<number | "">(0);
+  const [moneyEarned, setMoneyEarned] = useState<number | "">(0);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  useEffect(() => {
+    if (hours !== "") {
+      setMoneyEarned(Number(hours) * 50);
+    }
+  }, [hours]);
+
+  const handleSubmit = () => {
+    if (date && hours && moneyEarned) {
+      const entry = {
+        date,
+        hours: Number(hours),
+        moneyEarned: Number(moneyEarned),
+      };
+
+      if (editingIndex !== null) {
+        updateWorkEntry(editingIndex, entry);
+      } else {
+        addWorkEntry(entry);
+      }
+
+      setOpened(false);
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setDate("");
+    setHours(0);
+    setMoneyEarned(0);
+    setEditingIndex(null);
+  };
+
+  const handleEdit = (index: number) => {
+    const entry = workEntries[index];
+    setDate(entry.date);
+    setHours(entry.hours);
+    setMoneyEarned(entry.moneyEarned);
+    setEditingIndex(index);
+    setOpened(true);
+  };
+
+  return (
+    <Container size="lg" py="xl">
+      <Title order={1} ta="left" mb="xl">
+        Kai&apos;s Tuition
+      </Title>
+      <Progress
+        color="yellow"
+        size="xl"
+        value={tuitionPercentage}
+        striped
+        mb="xs"
+      />
+      <Group justify="space-between">
+        <Text size="sm">0</Text>
+        <Text size="sm">500</Text>
+        <Text size="sm">1000</Text>
+        <Text size="sm">1500</Text>
+        <Text size="sm">2000</Text>
+      </Group>
+
+      <Group justify="space-between" align="center" mt="xl" mb="md">
+        <Title order={2}>Work</Title>
+        <Button
+          onClick={() => {
+            resetForm();
+            setOpened(true);
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          Add Work
+        </Button>
+      </Group>
+
+      <Modal
+        opened={opened}
+        onClose={() => {
+          setOpened(false);
+          resetForm();
+        }}
+        title={editingIndex !== null ? "Edit Work Entry" : "Add Work Entry"}
+      >
+        <Stack>
+          <TextInput
+            label="Date"
+            placeholder="e.g., Fri 23.5."
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <NumberInput
+            label="Hours"
+            placeholder="Enter hours"
+            value={hours}
+            onChange={(val) => setHours(val as number | "")}
+            min={0}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <NumberInput
+            label="Money Earned"
+            placeholder="Calculated based on hours"
+            value={moneyEarned}
+            readOnly
+            suffix="€"
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Button onClick={handleSubmit}>
+            {editingIndex !== null ? "Update" : "Save"}
+          </Button>
+        </Stack>
+      </Modal>
+
+      <Table>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Date</Table.Th>
+            <Table.Th>Hours</Table.Th>
+            <Table.Th>Money Earned</Table.Th>
+            <Table.Th></Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {workEntries.map((entry, index) => (
+            <Table.Tr key={index}>
+              <Table.Td>{entry.date}</Table.Td>
+              <Table.Td>{entry.hours}</Table.Td>
+              <Table.Td>{entry.moneyEarned}€</Table.Td>
+              <Table.Td>
+                <ActionIcon
+                  variant="subtle"
+                  color="gray"
+                  onClick={() => handleEdit(index)}
+                >
+                  <IconEdit size={16} />
+                </ActionIcon>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Container>
   );
 }
