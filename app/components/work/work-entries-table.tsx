@@ -1,6 +1,6 @@
 import { Table, ActionIcon } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
-import { useWorkStore } from "../work.store";
+import { useWorkStore } from "../../work.store";
 
 export function WorkEntriesTable() {
   const { workEntries, openEntryForm } = useWorkStore();

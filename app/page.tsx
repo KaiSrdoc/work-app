@@ -1,14 +1,10 @@
 "use client";
 
-import { Container, Group, Title, Button } from "@mantine/core";
-import { useWorkStore } from "./work.store";
-import { WorkEntryForm } from "./components/work-entry-form";
-import { WorkEntriesTable } from "./components/work-entries-table";
+import { Container, Title } from "@mantine/core";
 import { TuitionProgress } from "./components/tuition-progress";
+import Work from "./components/work/work";
 
 export default function Home() {
-  const { openEntryForm } = useWorkStore();
-
   return (
     <Container size="lg" py="xl">
       <Title order={1} ta="left" mb="xl">
@@ -16,14 +12,7 @@ export default function Home() {
       </Title>
 
       <TuitionProgress />
-
-      <Group justify="space-between" align="center" mt="xl" mb="md">
-        <Title order={2}>Work</Title>
-        <Button onClick={() => openEntryForm()}>Add Work</Button>
-      </Group>
-
-      <WorkEntryForm />
-      <WorkEntriesTable />
+      <Work />
     </Container>
   );
 }

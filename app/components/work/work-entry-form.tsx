@@ -1,6 +1,6 @@
 import { Modal, TextInput, NumberInput, Stack, Button } from "@mantine/core";
 import { useState, useEffect } from "react";
-import { useWorkStore } from "../work.store";
+import { useWorkStore } from "../../work.store";
 
 export function WorkEntryForm() {
   const {
