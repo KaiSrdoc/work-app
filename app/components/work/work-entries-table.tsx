@@ -9,6 +9,16 @@ export function WorkEntriesTable() {
     return goals.find((goal) => goal.id === goalId)?.title || goalId;
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
+    const dayMonth = date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+    });
+    return `${dayMonth} ${weekday}`;
+  };
+
   return (
     <Table>
       <Table.Thead>
@@ -23,7 +33,7 @@ export function WorkEntriesTable() {
       <Table.Tbody>
         {workEntries.map((entry, index) => (
           <Table.Tr key={index}>
-            <Table.Td>{entry.date}</Table.Td>
+            <Table.Td>{formatDate(entry.date)}</Table.Td>
             <Table.Td>{entry.hoursWorked}</Table.Td>
             <Table.Td>{entry.moneyEarned}€</Table.Td>
             <Table.Td>{getGoalTitle(entry.goalId)}</Table.Td>

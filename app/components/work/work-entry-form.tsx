@@ -1,6 +1,5 @@
 import {
   Modal,
-  TextInput,
   NumberInput,
   Stack,
   Button,
@@ -10,6 +9,7 @@ import {
   ActionIcon,
   Tooltip,
 } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
 import { useState, useEffect } from "react";
 import { useWorkStore } from "../../work.store";
 import { IconTrash } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ export function WorkEntryForm() {
     closeEntryForm,
   } = useWorkStore();
 
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
   const [hoursWorked, setHoursWorked] = useState<number | "">(0);
   const [moneyEarned, setMoneyEarned] = useState<number | "">(0);
   const [goalId, setGoalId] = useState<string>("");
@@ -34,12 +34,12 @@ export function WorkEntryForm() {
   useEffect(() => {
     if (workEntryEditingIndex !== null) {
       const entry = workEntries[workEntryEditingIndex];
-      setDate(entry.date);
+      setDate(entry.date ? new Date(entry.date) : null);
       setHoursWorked(entry.hoursWorked);
       setMoneyEarned(entry.moneyEarned);
       setGoalId(entry.goalId);
     } else {
-      setDate("");
+      setDate(null);
       setHoursWorked(0);
       setMoneyEarned(0);
       setGoalId(goals[0]?.id || "");
@@ -55,7 +55,7 @@ export function WorkEntryForm() {
   const handleSubmit = () => {
     if (date && hoursWorked && moneyEarned && goalId) {
       const entry = {
-        date,
+        date: date.toISOString().split("T")[0],
         hoursWorked: Number(hoursWorked),
         moneyEarned: Number(moneyEarned),
         goalId,
@@ -75,6 +75,10 @@ export function WorkEntryForm() {
       deleteWorkEntry(workEntryEditingIndex);
       closeEntryForm();
     }
+  };
+
+  const handleDateChange = (value: string | null) => {
+    setDate(value ? new Date(value) : null);
   };
 
   return (
@@ -99,11 +103,10 @@ export function WorkEntryForm() {
       }
     >
       <Stack>
-        <TextInput
-          label="Date"
-          placeholder="e.g., Fri 23.5."
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+        <DatePicker
+          mx="auto"
+          value={date?.toISOString().split("T")[0] || ""}
+          onChange={handleDateChange}
         />
         <NumberInput
           label="Hours Worked"
