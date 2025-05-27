@@ -33,10 +33,42 @@ interface WorkStore {
   closeGoalForm: () => void;
 }
 
+const initialGoals: Goal[] = [
+  { id: "tuition-1-2", title: "Tuition 1/2", total: 2000 },
+  { id: "tuition-2-2", title: "Tuition 2/2", total: 2000 },
+];
+
+const initialWorkEntries: WorkEntry[] = [
+  {
+    date: "2025-05-23",
+    hoursWorked: 4,
+    moneyEarned: 200,
+    goalId: "tuition-1-2",
+  },
+  {
+    date: "2025-05-24",
+    hoursWorked: 4,
+    moneyEarned: 200,
+    goalId: "tuition-1-2",
+  },
+  {
+    date: "2025-05-25",
+    hoursWorked: 8,
+    moneyEarned: 400,
+    goalId: "tuition-1-2",
+  },
+  {
+    date: "2025-05-27",
+    hoursWorked: 3,
+    moneyEarned: 100,
+    goalId: "tuition-1-2",
+  },
+];
+
 export const useWorkStore = create<WorkStore>()(
   persist(
     (set) => ({
-      workEntries: [],
+      workEntries: initialWorkEntries,
       addWorkEntry: (entry) =>
         set((state) => ({
           workEntries: [...state.workEntries, entry],
@@ -63,10 +95,7 @@ export const useWorkStore = create<WorkStore>()(
           isEntryFormOpen: false,
           workEntryEditingIndex: null,
         }),
-      goals: [
-        { id: "tuition", title: "Tuition", total: 2000 },
-        { id: "savings", title: "Savings", total: 5000 },
-      ],
+      goals: initialGoals,
       addGoal: (goal) =>
         set((state) => ({
           goals: [...state.goals, goal],
