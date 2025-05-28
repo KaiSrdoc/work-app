@@ -3,11 +3,7 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 
-import {
-  ColorSchemeScript,
-  MantineProvider,
-  mantineHtmlProps,
-} from "@mantine/core";
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { Providers } from "./providers";
 
 export const metadata = {
@@ -26,9 +22,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>
-          <Providers>{children}</Providers>
-        </MantineProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
