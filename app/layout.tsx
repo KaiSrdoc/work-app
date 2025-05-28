@@ -8,6 +8,7 @@ import {
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "Work Goals",
@@ -25,7 +26,9 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <Providers>{children}</Providers>
+        </MantineProvider>
       </body>
     </html>
   );
