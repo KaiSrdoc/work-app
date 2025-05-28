@@ -59,8 +59,14 @@ const initialWorkEntries: WorkEntry[] = [
   },
   {
     date: "2025-05-27",
-    hoursWorked: 3,
+    hoursWorked: 2,
     moneyEarned: 100,
+    goalId: "tuition-1-2",
+  },
+  {
+    date: "2025-05-28",
+    hoursWorked: 3,
+    moneyEarned: 150,
     goalId: "tuition-1-2",
   },
 ];
