@@ -8,7 +8,6 @@ import { useGetCurrentUser } from "./pages/users/api/use-get-user";
 
 export default function Home() {
   const { data: currentUser } = useGetCurrentUser();
-  console.log(currentUser);
 
   return (
     <Container size="lg" py="xl">

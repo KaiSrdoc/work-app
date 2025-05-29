@@ -3,9 +3,11 @@ import { useWorkStore } from "../../work.store";
 import { GoalProgress } from "./goal-progress";
 import { GoalForm } from "./goal-form";
 import { IconPlus } from "@tabler/icons-react";
+import { useGetGoals } from "@/app/pages/goals/api/use-get-goals";
 
 export function Goals() {
-  const { goals, openGoalForm } = useWorkStore();
+  const { openGoalForm } = useWorkStore();
+  const { data: goals } = useGetGoals();
 
   return (
     <Stack gap="0">
@@ -21,7 +23,7 @@ export function Goals() {
         </Button>
       </Group>
       <Stack>
-        {goals.map((goal) => (
+        {goals?.map((goal) => (
           <GoalProgress key={goal.id} goal={goal} />
         ))}
         <GoalForm />
