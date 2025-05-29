@@ -1,15 +1,29 @@
 "use client";
 
-import { Container } from "@mantine/core";
+import { Button, Container, Group, Avatar, Text } from "@mantine/core";
 import { Goals } from "./components/goals/goals";
 import Work from "./components/work/work";
-import { useGetUsers } from "./pages/users/api/use-get-users";
+import { signInWithGoogle } from "./pages/users/api/auth";
+import { useGetCurrentUser } from "./pages/users/api/use-get-user";
 
 export default function Home() {
-  const { data: users } = useGetUsers();
-  console.log(users);
+  const { data: currentUser } = useGetCurrentUser();
+  console.log(currentUser);
+
   return (
     <Container size="lg" py="xl">
+      {currentUser ? (
+        <Group mb="xl" align="center">
+          <Avatar src={currentUser.avatar} size="md" radius="xl" />
+          <Text size="lg" fw={500}>
+            {currentUser.name}
+          </Text>
+        </Group>
+      ) : (
+        <Button onClick={signInWithGoogle} mb="xl">
+          Sign in with Google
+        </Button>
+      )}
       <Goals />
       <Work />
     </Container>

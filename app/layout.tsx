@@ -1,5 +1,3 @@
-// Import styles of packages that you've installed.
-// All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 
@@ -7,7 +5,7 @@ import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { Providers } from "./providers";
 
 export const metadata = {
-  title: "Work Goals",
+  title: "Work App",
   description: "Track your work and goals",
 };
 
