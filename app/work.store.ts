@@ -5,13 +5,15 @@ export interface Goal {
   id: string;
   title: string;
   total: number;
+  user_id: string;
 }
 
 interface WorkEntry {
   date: string;
-  hoursWorked: number;
-  moneyEarned: number;
-  goalId: string;
+  hours_worked: number;
+  money_earned: number;
+  goal_id: string;
+  user_id: string;
 }
 
 interface WorkStore {
@@ -33,41 +35,43 @@ interface WorkStore {
   closeGoalForm: () => void;
 }
 
-const initialGoals: Goal[] = [
-  { id: "tuition-1-2", title: "Tuition 1/2", total: 2000 },
-  { id: "tuition-2-2", title: "Tuition 2/2", total: 2000 },
-];
+const initialGoals: Goal[] = [];
 
 const initialWorkEntries: WorkEntry[] = [
   {
     date: "2025-05-23",
-    hoursWorked: 4,
-    moneyEarned: 200,
-    goalId: "tuition-1-2",
+    hours_worked: 4,
+    money_earned: 200,
+    goal_id: "tuition-1-2",
+    user_id: "1",
   },
   {
     date: "2025-05-24",
-    hoursWorked: 4,
-    moneyEarned: 200,
-    goalId: "tuition-1-2",
+    hours_worked: 4,
+    money_earned: 200,
+    goal_id: "tuition-1-2",
+    user_id: "1",
   },
   {
     date: "2025-05-25",
-    hoursWorked: 8,
-    moneyEarned: 400,
-    goalId: "tuition-1-2",
+    hours_worked: 8,
+    money_earned: 400,
+    goal_id: "tuition-1-2",
+    user_id: "1",
   },
   {
     date: "2025-05-27",
-    hoursWorked: 2,
-    moneyEarned: 100,
-    goalId: "tuition-1-2",
+    hours_worked: 2,
+    money_earned: 100,
+    goal_id: "tuition-1-2",
+    user_id: "1",
   },
   {
     date: "2025-05-28",
-    hoursWorked: 3,
-    moneyEarned: 150,
-    goalId: "tuition-1-2",
+    hours_worked: 3,
+    money_earned: 150,
+    goal_id: "tuition-1-2",
+    user_id: "1",
   },
 ];
 
@@ -113,7 +117,7 @@ export const useWorkStore = create<WorkStore>()(
       deleteGoal: (id) =>
         set((state) => ({
           goals: state.goals.filter((g) => g.id !== id),
-          workEntries: state.workEntries.filter((e) => e.goalId !== id),
+          workEntries: state.workEntries.filter((e) => e.goal_id !== id),
         })),
       goalEditingId: null,
       isGoalFormOpen: false,

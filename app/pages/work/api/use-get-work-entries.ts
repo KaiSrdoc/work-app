@@ -2,24 +2,26 @@ import { supabase } from "@/app/libs/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
 
-type Goal = {
+type WorkEntry = {
   id: string;
-  title: string;
-  total: number;
+  date: string;
+  hours_worked: number;
+  money_earned: number;
+  goal_id: string;
   user_id: string;
 };
 
-export function useGetGoals() {
+export function useGetWorkEntries() {
   const { data: currentUser } = useGetCurrentUser();
-  return useQuery<Goal[]>({
+  return useQuery<WorkEntry[]>({
     enabled: !!currentUser,
-    queryKey: ["useGetGoals"],
+    queryKey: ["useGetWorkEntries"],
     queryFn: async () => {
       const { data } = await supabase
-        .from("goals")
+        .from("work_entries")
         .select("*")
         .eq("user_id", currentUser?.id)
-        .order("created_at", { ascending: true });
+        .order("date", { ascending: false });
       return data ? data : [];
     },
   });

@@ -1,5 +1,5 @@
 import { Button, Group, Stack, Title } from "@mantine/core";
-import { useWorkStore } from "../../work.store";
+import { useWorkStore } from "@/app/work.store";
 import { GoalProgress } from "./goal-progress";
 import { GoalForm } from "./goal-form";
 import { IconPlus } from "@tabler/icons-react";

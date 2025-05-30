@@ -1,6 +1,6 @@
 import { Table, ActionIcon } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
-import { useWorkStore } from "../../work.store";
+import { useWorkStore } from "@/app/work.store";
 
 export function WorkEntriesTable() {
   const { workEntries, goals, openEntryForm } = useWorkStore();
@@ -34,9 +34,9 @@ export function WorkEntriesTable() {
         {workEntries.map((entry, index) => (
           <Table.Tr key={index}>
             <Table.Td>{formatDate(entry.date)}</Table.Td>
-            <Table.Td>{entry.hoursWorked}</Table.Td>
-            <Table.Td>{entry.moneyEarned}€</Table.Td>
-            <Table.Td>{getGoalTitle(entry.goalId)}</Table.Td>
+            <Table.Td>{entry.hours_worked}</Table.Td>
+            <Table.Td>{entry.money_earned}€</Table.Td>
+            <Table.Td>{getGoalTitle(entry.goal_id)}</Table.Td>
             <Table.Td>
               <ActionIcon
                 variant="subtle"

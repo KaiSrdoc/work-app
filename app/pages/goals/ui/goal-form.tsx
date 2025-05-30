@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { useWorkStore, Goal } from "../../work.store";
+import { useWorkStore, Goal } from "@/app/work.store";
 
 export function GoalForm() {
   const {
@@ -46,6 +46,7 @@ export function GoalForm() {
         id: goalEditingId || crypto.randomUUID(),
         title,
         total: Number(total),
+        user_id: "1",
       };
 
       if (goalEditingId) {

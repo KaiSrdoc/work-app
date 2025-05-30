@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useState, useEffect } from "react";
-import { useWorkStore } from "../../work.store";
+import { useWorkStore } from "@/app/work.store";
 import { IconTrash } from "@tabler/icons-react";
 
 export function WorkEntryForm() {
@@ -35,9 +35,9 @@ export function WorkEntryForm() {
     if (workEntryEditingIndex !== null) {
       const entry = workEntries[workEntryEditingIndex];
       setDate(entry.date ? new Date(entry.date) : null);
-      setHoursWorked(entry.hoursWorked);
-      setMoneyEarned(entry.moneyEarned);
-      setGoalId(entry.goalId);
+      setHoursWorked(entry.hours_worked);
+      setMoneyEarned(entry.money_earned);
+      setGoalId(entry.goal_id);
     } else {
       setDate(null);
       setHoursWorked(0);
@@ -56,9 +56,10 @@ export function WorkEntryForm() {
     if (date && hoursWorked && moneyEarned && goalId) {
       const entry = {
         date: date.toISOString().split("T")[0],
-        hoursWorked: Number(hoursWorked),
-        moneyEarned: Number(moneyEarned),
-        goalId,
+        hours_worked: Number(hoursWorked),
+        money_earned: Number(moneyEarned),
+        goal_id: goalId,
+        user_id: "1",
       };
 
       if (workEntryEditingIndex !== null) {
