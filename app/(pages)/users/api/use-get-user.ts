@@ -4,7 +4,7 @@ import { supabase } from "@/libs/supabase/supabase";
 import { User } from "@/libs/supabase/entities.types";
 
 export function useGetCurrentUser() {
-  return useQuery<User>({
+  return useQuery<User & { avatar: string }>({
     queryKey: ["useGetCurrentUser"],
     queryFn: async () => {
       const user = await getUser();

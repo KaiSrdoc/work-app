@@ -3,6 +3,7 @@ import "@mantine/dates/styles.css";
 
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { Providers } from "./providers";
+import User from "./ui/user";
 
 export const metadata = {
   title: "Work App",
@@ -20,7 +21,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <User />
+          {children}
+        </Providers>
       </body>
     </html>
   );
