@@ -13,7 +13,7 @@ export function Goals() {
     <Stack gap="0">
       <Group justify="space-between" align="center" mb="xl">
         <Title order={1} ta="left">
-          My Goals
+          Goals
         </Title>
         <Button
           leftSection={<IconPlus size={16} />}

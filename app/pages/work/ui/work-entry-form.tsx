@@ -13,38 +13,40 @@ import { DatePicker } from "@mantine/dates";
 import { useState, useEffect } from "react";
 import { useWorkStore } from "@/app/work.store";
 import { IconTrash } from "@tabler/icons-react";
+import { useGetWorkEntries } from "../api/use-get-work-entries";
+import { useUpsertWorkEntry } from "../api/use-upsert-work-entries";
+import { useDeleteWorkEntry } from "../api/use-delete-work-entry";
+import { useGetGoals } from "../../goals/api/use-get-goals";
 
 export function WorkEntryForm() {
-  const {
-    workEntries,
-    goals,
-    addWorkEntry,
-    updateWorkEntry,
-    deleteWorkEntry,
-    isEntryFormOpen,
-    workEntryEditingIndex,
-    closeEntryForm,
-  } = useWorkStore();
+  const { isEntryFormOpen, workEntryEditingId, closeEntryForm } =
+    useWorkStore();
+  const { data: workEntries = [] } = useGetWorkEntries();
+  const { data: goals = [] } = useGetGoals();
+  const { mutate: upsertWorkEntry } = useUpsertWorkEntry();
+  const { mutate: deleteWorkEntry } = useDeleteWorkEntry();
 
   const [date, setDate] = useState<Date | null>(null);
   const [hoursWorked, setHoursWorked] = useState<number | "">(0);
   const [moneyEarned, setMoneyEarned] = useState<number | "">(0);
-  const [goalId, setGoalId] = useState<string>("");
+  const [goalId, setGoalId] = useState<number>(0);
 
   useEffect(() => {
-    if (workEntryEditingIndex !== null) {
-      const entry = workEntries[workEntryEditingIndex];
-      setDate(entry.date ? new Date(entry.date) : null);
-      setHoursWorked(entry.hours_worked);
-      setMoneyEarned(entry.money_earned);
-      setGoalId(entry.goal_id);
+    if (workEntryEditingId !== null) {
+      const entry = workEntries.find((e) => e.id === workEntryEditingId);
+      if (entry) {
+        setDate(entry.work_date ? new Date(entry.work_date) : null);
+        setHoursWorked(entry.hours_worked);
+        setMoneyEarned(entry.money_earned);
+        setGoalId(entry.goal_id);
+      }
     } else {
       setDate(null);
       setHoursWorked(0);
       setMoneyEarned(0);
-      setGoalId(goals[0]?.id || "");
+      setGoalId(goals[0]?.id || 0);
     }
-  }, [workEntryEditingIndex, workEntries, goals]);
+  }, [workEntryEditingId, workEntries, goals]);
 
   useEffect(() => {
     if (hoursWorked !== "") {
@@ -55,25 +57,21 @@ export function WorkEntryForm() {
   const handleSubmit = () => {
     if (date && hoursWorked && moneyEarned && goalId) {
       const entry = {
-        date: date.toISOString().split("T")[0],
+        id: workEntryEditingId || undefined,
+        work_date: date.toISOString().split("T")[0],
         hours_worked: Number(hoursWorked),
         money_earned: Number(moneyEarned),
         goal_id: goalId,
-        user_id: "1",
       };
 
-      if (workEntryEditingIndex !== null) {
-        updateWorkEntry(workEntryEditingIndex, entry);
-      } else {
-        addWorkEntry(entry);
-      }
+      upsertWorkEntry(entry);
       closeEntryForm();
     }
   };
 
   const handleDelete = () => {
-    if (workEntryEditingIndex !== null) {
-      deleteWorkEntry(workEntryEditingIndex);
+    if (workEntryEditingId) {
+      deleteWorkEntry(workEntryEditingId);
       closeEntryForm();
     }
   };
@@ -89,11 +87,9 @@ export function WorkEntryForm() {
       title={
         <Group justify="space-between" align="center">
           <Text size="xl" fw={700}>
-            {workEntryEditingIndex !== null
-              ? "Edit Work Entry"
-              : "Add Work Entry"}
+            {workEntryEditingId !== null ? "Edit Work Entry" : "Add Work Entry"}
           </Text>
-          {workEntryEditingIndex !== null && (
+          {workEntryEditingId !== null && (
             <Tooltip label="Delete entry">
               <ActionIcon variant="subtle" color="red" onClick={handleDelete}>
                 <IconTrash size={16} />
@@ -126,12 +122,15 @@ export function WorkEntryForm() {
         <Select
           label="Goal"
           placeholder="Select a goal"
-          value={goalId}
-          onChange={(value) => setGoalId(value || "")}
-          data={goals.map((goal) => ({ value: goal.id, label: goal.title }))}
+          value={String(goalId)}
+          onChange={(value) => setGoalId(Number(value) || 0)}
+          data={goals.map((goal) => ({
+            value: String(goal.id),
+            label: goal.title,
+          }))}
         />
         <Button onClick={handleSubmit}>
-          {workEntryEditingIndex !== null ? "Update" : "Save"}
+          {workEntryEditingId !== null ? "Update" : "Save"}
         </Button>
       </Stack>
     </Modal>

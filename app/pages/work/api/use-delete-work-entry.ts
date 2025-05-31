@@ -1,0 +1,18 @@
+import { supabase } from "@/app/libs/supabase/supabase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function useDeleteWorkEntry() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const { error } = await supabase
+        .from("work_entries")
+        .delete()
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetWorkEntries"] });
+    },
+  });
+}

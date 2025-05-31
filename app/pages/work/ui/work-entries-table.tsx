@@ -1,12 +1,16 @@
 import { Table, ActionIcon } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
+import { useGetWorkEntries } from "../api/use-get-work-entries";
+import { useGetGoals } from "../../goals/api/use-get-goals";
 import { useWorkStore } from "@/app/work.store";
 
 export function WorkEntriesTable() {
-  const { workEntries, goals, openEntryForm } = useWorkStore();
+  const { data: workEntries = [] } = useGetWorkEntries();
+  const { data: goals = [] } = useGetGoals();
+  const { openEntryForm } = useWorkStore();
 
-  const getGoalTitle = (goalId: string) => {
-    return goals.find((goal) => goal.id === goalId)?.title || goalId;
+  const getGoalTitle = (goalId: number) => {
+    return goals.find((goal) => goal.id === goalId)?.title || "No goal";
   };
 
   const formatDate = (dateString: string) => {
@@ -31,9 +35,9 @@ export function WorkEntriesTable() {
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {workEntries.map((entry, index) => (
-          <Table.Tr key={index}>
-            <Table.Td>{formatDate(entry.date)}</Table.Td>
+        {workEntries.map((entry) => (
+          <Table.Tr key={entry.id}>
+            <Table.Td>{formatDate(entry.work_date)}</Table.Td>
             <Table.Td>{entry.hours_worked}</Table.Td>
             <Table.Td>{entry.money_earned}€</Table.Td>
             <Table.Td>{getGoalTitle(entry.goal_id)}</Table.Td>
@@ -41,7 +45,7 @@ export function WorkEntriesTable() {
               <ActionIcon
                 variant="subtle"
                 color="gray"
-                onClick={() => openEntryForm(index)}
+                onClick={() => openEntryForm(entry.id)}
               >
                 <IconEdit size={16} />
               </ActionIcon>

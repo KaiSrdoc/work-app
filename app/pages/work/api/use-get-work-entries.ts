@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
 
 type WorkEntry = {
-  id: string;
-  date: string;
+  id: number;
+  work_date: string;
   hours_worked: number;
   money_earned: number;
-  goal_id: string;
-  user_id: string;
+  goal_id: number;
+  user_id: number;
 };
 
 export function useGetWorkEntries() {
@@ -21,7 +21,7 @@ export function useGetWorkEntries() {
         .from("work_entries")
         .select("*")
         .eq("user_id", currentUser?.id)
-        .order("date", { ascending: false });
+        .order("work_date", { ascending: false });
       return data ? data : [];
     },
   });

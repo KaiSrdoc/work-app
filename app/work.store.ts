@@ -2,110 +2,69 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface Goal {
-  id: string;
+  id: number;
   title: string;
   total: number;
-  user_id: string;
+  user_id: number;
 }
 
-interface WorkEntry {
+export interface WorkEntry {
+  id: number;
   date: string;
   hours_worked: number;
   money_earned: number;
-  goal_id: string;
-  user_id: string;
+  goal_id: number;
+  user_id: number;
 }
 
 interface WorkStore {
   workEntries: WorkEntry[];
   addWorkEntry: (entry: WorkEntry) => void;
-  updateWorkEntry: (index: number, entry: WorkEntry) => void;
-  deleteWorkEntry: (index: number) => void;
-  workEntryEditingIndex: number | null;
+  updateWorkEntry: (id: number, entry: WorkEntry) => void;
+  deleteWorkEntry: (id: number) => void;
+  workEntryEditingId: number | null;
   isEntryFormOpen: boolean;
-  openEntryForm: (editingIndex?: number) => void;
+  openEntryForm: (editingId?: number) => void;
   closeEntryForm: () => void;
   goals: Goal[];
   addGoal: (goal: Goal) => void;
-  updateGoal: (id: string, goal: Goal) => void;
-  deleteGoal: (id: string) => void;
-  goalEditingId: string | null;
+  updateGoal: (id: number, goal: Goal) => void;
+  deleteGoal: (id: number) => void;
+  goalEditingId: number | null;
   isGoalFormOpen: boolean;
-  openGoalForm: (editingId?: string) => void;
+  openGoalForm: (editingId?: number) => void;
   closeGoalForm: () => void;
 }
-
-const initialGoals: Goal[] = [];
-
-const initialWorkEntries: WorkEntry[] = [
-  {
-    date: "2025-05-23",
-    hours_worked: 4,
-    money_earned: 200,
-    goal_id: "tuition-1-2",
-    user_id: "1",
-  },
-  {
-    date: "2025-05-24",
-    hours_worked: 4,
-    money_earned: 200,
-    goal_id: "tuition-1-2",
-    user_id: "1",
-  },
-  {
-    date: "2025-05-25",
-    hours_worked: 8,
-    money_earned: 400,
-    goal_id: "tuition-1-2",
-    user_id: "1",
-  },
-  {
-    date: "2025-05-27",
-    hours_worked: 2,
-    money_earned: 100,
-    goal_id: "tuition-1-2",
-    user_id: "1",
-  },
-  {
-    date: "2025-05-28",
-    hours_worked: 3,
-    money_earned: 150,
-    goal_id: "tuition-1-2",
-    user_id: "1",
-  },
-];
 
 export const useWorkStore = create<WorkStore>()(
   persist(
     (set) => ({
-      workEntries: initialWorkEntries,
+      workEntries: [],
       addWorkEntry: (entry) =>
         set((state) => ({
           workEntries: [...state.workEntries, entry],
         })),
-      updateWorkEntry: (index, entry) =>
+      updateWorkEntry: (id, entry) =>
         set((state) => ({
-          workEntries: state.workEntries.map((e, i) =>
-            i === index ? entry : e
-          ),
+          workEntries: state.workEntries.map((e) => (e.id === id ? entry : e)),
         })),
-      deleteWorkEntry: (index) =>
+      deleteWorkEntry: (id) =>
         set((state) => ({
-          workEntries: state.workEntries.filter((_, i) => i !== index),
+          workEntries: state.workEntries.filter((e) => e.id !== id),
         })),
-      workEntryEditingIndex: null,
+      workEntryEditingId: null,
       isEntryFormOpen: false,
-      openEntryForm: (editingIndex) =>
+      openEntryForm: (editingId) =>
         set({
           isEntryFormOpen: true,
-          workEntryEditingIndex: editingIndex ?? null,
+          workEntryEditingId: editingId ?? null,
         }),
       closeEntryForm: () =>
         set({
           isEntryFormOpen: false,
-          workEntryEditingIndex: null,
+          workEntryEditingId: null,
         }),
-      goals: initialGoals,
+      goals: [],
       addGoal: (goal) =>
         set((state) => ({
           goals: [...state.goals, goal],

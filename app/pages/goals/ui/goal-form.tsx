@@ -11,18 +11,16 @@ import {
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { useWorkStore, Goal } from "@/app/work.store";
+import { useWorkStore } from "@/app/work.store";
+import { useUpsertGoal } from "../api/use-upsert-goal";
+import { useGetGoals } from "../api/use-get-goals";
+import { useDeleteGoal } from "../api/use-delete-goal";
 
 export function GoalForm() {
-  const {
-    goals,
-    updateGoal,
-    addGoal,
-    deleteGoal,
-    isGoalFormOpen,
-    goalEditingId,
-    closeGoalForm,
-  } = useWorkStore();
+  const { isGoalFormOpen, goalEditingId, closeGoalForm } = useWorkStore();
+  const { data: goals = [] } = useGetGoals();
+  const { mutate: upsertGoal } = useUpsertGoal();
+  const { mutate: deleteGoal } = useDeleteGoal();
 
   const [title, setTitle] = useState("");
   const [total, setTotal] = useState<number | "">(0);
@@ -42,18 +40,13 @@ export function GoalForm() {
 
   const handleSubmit = () => {
     if (title && total) {
-      const goal: Goal = {
-        id: goalEditingId || crypto.randomUUID(),
+      const goal = {
+        id: goalEditingId || undefined,
         title,
         total: Number(total),
-        user_id: "1",
       };
 
-      if (goalEditingId) {
-        updateGoal(goalEditingId, goal);
-      } else {
-        addGoal(goal);
-      }
+      upsertGoal(goal);
       closeGoalForm();
     }
   };
@@ -99,7 +92,7 @@ export function GoalForm() {
           min={0}
           suffix="€"
         />
-        <Button onClick={handleSubmit}>
+        <Button onClick={handleSubmit} disabled={!title || Number(total) < 5}>
           {goalEditingId !== null ? "Update" : "Save"}
         </Button>
       </Stack>

@@ -1,13 +1,20 @@
 import { Title, Progress, Text, Group, ActionIcon, Stack } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
-import { useWorkStore, Goal } from "@/app/work.store";
+import { useWorkStore } from "@/app/work.store";
+import { useGetWorkEntries } from "../../work/api/use-get-work-entries";
 
 interface GoalProgressProps {
-  goal: Goal;
+  goal: {
+    id: number;
+    title: string;
+    total: number;
+  };
 }
 
 export function GoalProgress({ goal }: GoalProgressProps) {
-  const { workEntries, openGoalForm } = useWorkStore();
+  const { openGoalForm } = useWorkStore();
+  const { data: workEntries = [] } = useGetWorkEntries();
+
   const totalMoneyEarned = workEntries
     .filter((entry) => entry.goal_id === goal.id)
     .reduce((sum, entry) => sum + entry.money_earned, 0);

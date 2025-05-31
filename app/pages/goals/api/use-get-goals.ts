@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
 
 type Goal = {
-  id: string;
+  id: number;
   title: string;
   total: number;
-  user_id: string;
+  user_id: number;
 };
 
 export function useGetGoals() {
