@@ -1,10 +1,10 @@
-import { IconSchema, IconBriefcase } from "@tabler/icons-react";
+import { IconFlag, IconHammer } from "@tabler/icons-react";
 import { NavbarLink } from "./sidebar/navbar/navbar-link";
 import { usePathname } from "next/navigation";
 
 const pages = [
-  { icon: IconSchema, label: "Goals", path: "/goals" },
-  { icon: IconBriefcase, label: "Work", path: "/work" },
+  { icon: IconFlag, label: "Goals", path: "/goals" },
+  { icon: IconHammer, label: "Work", path: "/work" },
 ];
 
 export function usePagesLinks() {
