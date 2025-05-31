@@ -1,0 +1,31 @@
+.link {
+  height: 50px;
+  width: 170px;
+  border-radius: var(--mantine-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--mantine-color-white);
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  padding: 0 var(--mantine-spacing-md) 0 5px;
+}
+
+.linkInner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.linkLabel {
+  width: 100px;
+  margin-left: var(--mantine-spacing-md);
+  margin-right: var(--mantine-spacing-xl);
+  color: var(--mantine-color-white);
+  font-size: var(--mantine-font-size-sm);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

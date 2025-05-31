@@ -1,0 +1,62 @@
+.link {
+  height: 50px;
+  min-width: 50px;
+  border-radius: var(--mantine-radius-md);
+  display: flex;
+  align-items: center;
+  color: var(--mantine-color-white);
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    background-color: var(--mantine-color-blue-7);
+  }
+
+  &[data-active] {
+    &,
+    &:hover {
+      box-shadow: var(--mantine-shadow-sm);
+      background-color: var(--mantine-color-white);
+      color: var(--mantine-color-blue-8);
+    }
+  }
+
+  &[data-color-scheme="dark"] {
+    &:hover {
+      background-color: var(--mantine-color-dark-6);
+    }
+
+    &[data-active] {
+      &,
+      &:hover {
+        background-color: var(--mantine-color-dark-4);
+        color: var(--mantine-color-white);
+      }
+    }
+  }
+}
+
+.linkInner {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.linkLabel {
+  margin-left: var(--mantine-spacing-md);
+  color: var(--mantine-color-white);
+  font-size: var(--mantine-font-size-sm);
+  white-space: nowrap;
+  width: 100px;
+}
+
+/* Ensure active link label is visible and has correct color */
+.link[data-active] .linkLabel {
+  color: var(--mantine-color-blue-8);
+}
+
+.link[data-color-scheme="dark"][data-active] .linkLabel {
+  color: var(--mantine-color-white);
+}

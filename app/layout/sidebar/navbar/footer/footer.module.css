@@ -1,0 +1,8 @@
+.navbarFooter {
+  margin-top: auto;
+  padding-top: var(--mantine-spacing-md);
+}
+
+.avatarWrapper {
+  margin-top: var(--mantine-spacing-lg);
+}

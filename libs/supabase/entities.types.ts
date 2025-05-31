@@ -4,7 +4,7 @@ export type UserDb = Tables<"users">;
 export type GoalDb = Tables<"goals">;
 export type WorkEntryDb = Tables<"work_entries">;
 
-export type User = Transform<UserDb>;
+export type User = Transform<UserDb> & { avatar: string };
 export type Goal = Transform<GoalDb>;
 export type WorkEntry = Transform<WorkEntryDb>;
 

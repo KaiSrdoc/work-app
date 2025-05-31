@@ -10,9 +10,9 @@ export default function Work() {
   const { openEntryForm } = useWorkStore();
 
   return (
-    <Container size="lg">
-      <Group justify="space-between" align="center" mt="xl" mb="md">
-        <Title order={2}>Work</Title>
+    <Container size="lg" pt="xl">
+      <Group justify="space-between" align="center" mb="md">
+        <Title>Work</Title>
         <Button onClick={() => openEntryForm()}>Add Work</Button>
       </Group>
       <WorkEntryForm />

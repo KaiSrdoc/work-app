@@ -1,0 +1,62 @@
+.navbar {
+  background-color: var(--mantine-color-blue-8);
+  padding: var(--mantine-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px; /* Match the header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  overflow: auto;
+  border-inline-end: none;
+}
+
+.navbarContent {
+  padding: 0 var(--mantine-spacing-lg);
+}
+
+.header {
+  background-color: var(--mantine-color-blue-8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+}
+
+.logoLabel {
+  color: var(--mantine-color-white);
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 500;
+}
+
+/* Style header action icons */
+.header :global(.mantine-ActionIcon-root) {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.header :global(.mantine-ActionIcon-root:hover) {
+  background-color: var(--mantine-color-blue-7);
+  transform: scale(1.05);
+}
+
+/* Add padding to main content to account for fixed header */
+.main {
+  padding: 0;
+  padding-top: 60px;
+  padding-bottom: 10vh;
+  height: 100vh;
+  overflow-y: auto;
+  width: 100vw;
+  overflow-x: hidden;
+}

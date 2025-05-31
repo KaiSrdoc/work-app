@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Container, Group, Avatar, Text } from "@mantine/core";
-import { signInWithGoogle } from "@/app/(pages)/users/api/auth";
+import { signInWithGoogle } from "@/app/(pages)/users/api/use-auth";
 import { useGetCurrentUser } from "@/app/(pages)/users/api/use-get-user";
 
 export default function User() {

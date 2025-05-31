@@ -1,0 +1,31 @@
+.navbar {
+  width: 80px;
+  height: 100vh;
+  padding: var(--mantine-spacing-md);
+  padding-right: 13px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mantine-color-blue-8);
+  position: sticky;
+  top: 0;
+  transition: width 0.3s ease;
+  z-index: 100;
+  overflow: hidden;
+  width: 80px;
+}
+
+.navbarMain {
+  flex: 1;
+  margin-top: 30px;
+  overflow-y: auto;
+  overflow-x: visible;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* Ensure the main section takes available space but doesn't push bottom section out of view */
+  min-height: 0;
+}

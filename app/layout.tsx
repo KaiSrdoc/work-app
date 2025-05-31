@@ -3,7 +3,7 @@ import "@mantine/dates/styles.css";
 
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { Providers } from "./providers";
-import User from "./ui/user";
+import { SidebarLayout } from "./layout/sidebar/sidebar-layout";
 
 export const metadata = {
   title: "Work App",
@@ -22,8 +22,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <User />
-          {children}
+          <SidebarLayout>{children}</SidebarLayout>
         </Providers>
       </body>
     </html>

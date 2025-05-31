@@ -1,0 +1,23 @@
+.logoWrapper {
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 1px;
+}
+
+.logoIconWrapper {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoLabel {
+  margin-left: var(--mantine-spacing-sm);
+  color: var(--mantine-color-white);
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 500;
+  white-space: nowrap;
+}
