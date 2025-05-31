@@ -29,22 +29,22 @@ export function WorkEntryForm() {
   const [date, setDate] = useState<Date | null>(null);
   const [hoursWorked, setHoursWorked] = useState<number | "">(0);
   const [moneyEarned, setMoneyEarned] = useState<number | "">(0);
-  const [goalId, setGoalId] = useState<number>(0);
+  const [goalId, setGoalId] = useState<number | null>(null);
 
   useEffect(() => {
     if (workEntryEditingId !== null) {
       const entry = workEntries.find((e) => e.id === workEntryEditingId);
       if (entry) {
         setDate(entry.work_date ? new Date(entry.work_date) : null);
-        setHoursWorked(entry.hours_worked);
-        setMoneyEarned(entry.money_earned);
-        setGoalId(entry.goal_id);
+        setHoursWorked(entry.hours_worked || 0);
+        setMoneyEarned(entry.money_earned || 0);
+        setGoalId(entry.goal_id || null);
       }
     } else {
       setDate(null);
       setHoursWorked(0);
       setMoneyEarned(0);
-      setGoalId(goals[0]?.id || 0);
+      setGoalId(goals[0]?.id || null);
     }
   }, [workEntryEditingId, workEntries, goals]);
 
@@ -63,7 +63,6 @@ export function WorkEntryForm() {
         money_earned: Number(moneyEarned),
         goal_id: goalId,
       };
-
       upsertWorkEntry(entry);
       closeEntryForm();
     }
@@ -122,11 +121,11 @@ export function WorkEntryForm() {
         <Select
           label="Goal"
           placeholder="Select a goal"
-          value={String(goalId)}
-          onChange={(value) => setGoalId(Number(value) || 0)}
+          value={goalId?.toString() || ""}
+          onChange={(value) => setGoalId(value ? Number(value) : null)}
           data={goals.map((goal) => ({
-            value: String(goal.id),
-            label: goal.title,
+            value: goal.id.toString(),
+            label: goal.title || "",
           }))}
         />
         <Button onClick={handleSubmit}>

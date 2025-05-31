@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "./auth";
-import { supabase } from "@/app/libs/supabase/supabase";
+import { supabase } from "@/libs/supabase/supabase";
+import { User } from "@/libs/supabase/entities.types";
 
 export function useGetCurrentUser() {
-  return useQuery({
+  return useQuery<User>({
     queryKey: ["useGetCurrentUser"],
     queryFn: async () => {
       const user = await getUser();

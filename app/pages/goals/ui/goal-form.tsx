@@ -29,8 +29,8 @@ export function GoalForm() {
     if (goalEditingId !== null) {
       const goal = goals.find((g) => g.id === goalEditingId);
       if (goal) {
-        setTitle(goal.title);
-        setTotal(goal.total);
+        setTitle(goal.title || "");
+        setTotal(goal.total || 0);
       }
     } else {
       setTitle("");
@@ -45,7 +45,6 @@ export function GoalForm() {
         title,
         total: Number(total),
       };
-
       upsertGoal(goal);
       closeGoalForm();
     }

@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db-types": "supabase gen types typescript --project-id fkjpdfrzetjamuskzgwq > libs/supabase/database.types.ts"
   },
   "dependencies": {
     "@mantine/core": "^8.0.1",

@@ -1,4 +1,4 @@
-import { supabase } from "@/app/libs/supabase/supabase";
+import { supabase } from "@/libs/supabase/supabase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeleteWorkEntry() {

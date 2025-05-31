@@ -2,13 +2,10 @@ import { Title, Progress, Text, Group, ActionIcon, Stack } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 import { useWorkStore } from "@/app/work.store";
 import { useGetWorkEntries } from "../../work/api/use-get-work-entries";
+import { Goal } from "@/libs/supabase/entities.types";
 
 interface GoalProgressProps {
-  goal: {
-    id: number;
-    title: string;
-    total: number;
-  };
+  goal: Goal;
 }
 
 export function GoalProgress({ goal }: GoalProgressProps) {
@@ -17,18 +14,18 @@ export function GoalProgress({ goal }: GoalProgressProps) {
 
   const totalMoneyEarned = workEntries
     .filter((entry) => entry.goal_id === goal.id)
-    .reduce((sum, entry) => sum + entry.money_earned, 0);
-  const goalPercentage = (totalMoneyEarned / goal.total) * 100;
+    .reduce((sum, entry) => sum + (entry.money_earned || 0), 0);
+  const goalPercentage = (totalMoneyEarned / (goal.total || 0)) * 100;
 
   const ticks = Array.from({ length: 5 }, (_, i) =>
-    Math.round((i * goal.total) / 4)
+    Math.round((i * (goal.total || 0)) / 4)
   );
 
   return (
     <Stack gap="xs">
       <Group gap="xs" align="center">
         <Title order={2} ta="left">
-          {goal.title}
+          {goal.title || ""}
         </Title>
         <ActionIcon
           variant="subtle"

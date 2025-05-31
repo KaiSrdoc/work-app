@@ -1,15 +1,7 @@
-import { supabase } from "@/app/libs/supabase/supabase";
+import { supabase } from "@/libs/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
-
-type WorkEntry = {
-  id: number;
-  work_date: string;
-  hours_worked: number;
-  money_earned: number;
-  goal_id: number;
-  user_id: number;
-};
+import { WorkEntry } from "@/libs/supabase/entities.types";
 
 export function useGetWorkEntries() {
   const { data: currentUser } = useGetCurrentUser();

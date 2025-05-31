@@ -9,7 +9,7 @@ export function WorkEntriesTable() {
   const { data: goals = [] } = useGetGoals();
   const { openEntryForm } = useWorkStore();
 
-  const getGoalTitle = (goalId: number) => {
+  const getGoalTitle = (goalId: number | null) => {
     return goals.find((goal) => goal.id === goalId)?.title || "No goal";
   };
 
@@ -37,10 +37,10 @@ export function WorkEntriesTable() {
       <Table.Tbody>
         {workEntries.map((entry) => (
           <Table.Tr key={entry.id}>
-            <Table.Td>{formatDate(entry.work_date)}</Table.Td>
+            <Table.Td>{formatDate(entry.work_date || "")}</Table.Td>
             <Table.Td>{entry.hours_worked}</Table.Td>
             <Table.Td>{entry.money_earned}€</Table.Td>
-            <Table.Td>{getGoalTitle(entry.goal_id)}</Table.Td>
+            <Table.Td>{getGoalTitle(entry.goal_id || null)}</Table.Td>
             <Table.Td>
               <ActionIcon
                 variant="subtle"
