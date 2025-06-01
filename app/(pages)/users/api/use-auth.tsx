@@ -82,7 +82,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       await signOutSupabase();
       queryClient.invalidateQueries({ queryKey: ["useGetCurrentUser"] });
       queryClient.setQueryData(["useGetCurrentUser"], null);
-      redirect("/users/login");
+      window.location.href = "/users/login";
     } catch (error) {
       console.error("Error signing out:", error);
       throw error;
