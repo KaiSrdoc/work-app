@@ -34,10 +34,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const signOut = async () => {
-    console.log("signOut before");
     try {
       await signOutSupabase();
-      console.log("signOut after");
       queryClient.invalidateQueries({ queryKey: ["useGetCurrentUser"] });
       queryClient.setQueryData(["useGetCurrentUser"], null);
       redirect("/users/login");

@@ -1,9 +1,9 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "./globals.css";
 
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
-import { Providers } from "./providers";
-import { SidebarLayout } from "./layout/sidebar/sidebar-layout";
+import Body from "./body";
 
 export const metadata = {
   title: "Work App",
@@ -20,11 +20,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body>
-        <Providers>
-          <SidebarLayout>{children}</SidebarLayout>
-        </Providers>
-      </body>
+      <Body>{children}</Body>
     </html>
   );
 }

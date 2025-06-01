@@ -36,13 +36,12 @@
   color: var(--mantine-color-white);
   font-size: var(--mantine-font-size-lg);
   font-weight: 500;
+  margin-left: -1rem;
 }
 
 /* Style header action icons */
 .header :global(.mantine-ActionIcon-root) {
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .header :global(.mantine-ActionIcon-root:hover) {
