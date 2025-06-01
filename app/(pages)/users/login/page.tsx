@@ -21,8 +21,6 @@ export default function LoginPage() {
   const { isLoading, isAuthenticated, signIn } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  console.log(isAuthenticated, isLoading);
-
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
       redirect("/");

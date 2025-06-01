@@ -4,7 +4,7 @@
   border-radius: var(--mantine-radius-md);
   display: flex;
   align-items: center;
-  color: var(--mantine-color-white);
+  color: var(--mantine-color-white) !important;
   position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
