@@ -1,4 +1,12 @@
-import { Title, Progress, Text, Group, ActionIcon, Stack } from "@mantine/core";
+import {
+  Title,
+  Progress,
+  Text,
+  Group,
+  ActionIcon,
+  Stack,
+  Box,
+} from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 import { useWorkStore } from "@/app/work.store";
 import { useGetWorkEntries } from "../../work/api/use-get-work-entries";
@@ -39,9 +47,14 @@ export function GoalProgress({ goal }: GoalProgressProps) {
         <Progress color="yellow" size="xl" value={goalPercentage} striped />
         <Group justify="space-between">
           {ticks.map((tick) => (
-            <Text key={tick} size="sm">
-              {tick}
-            </Text>
+            <Box key={tick} className="relative h-4 w-1">
+              <Text
+                size="sm"
+                className="absolute left-1/2 top-0 -translate-x-1/2 w-max"
+              >
+                {tick}
+              </Text>
+            </Box>
           ))}
         </Group>
       </Stack>
