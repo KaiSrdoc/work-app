@@ -29,7 +29,7 @@ export function WorkEntryForm() {
   const [date, setDate] = useState<Date | null>(null);
   const [hoursWorked, setHoursWorked] = useState<number | "">(0);
   const [moneyEarned, setMoneyEarned] = useState<number | "">(0);
-  const [goalId, setGoalId] = useState<number | null>(null);
+  const [goalId, setGoalId] = useState<number>();
 
   useEffect(() => {
     if (workEntryEditingId !== null) {
@@ -38,13 +38,13 @@ export function WorkEntryForm() {
         setDate(entry.work_date ? new Date(entry.work_date) : null);
         setHoursWorked(entry.hours_worked || 0);
         setMoneyEarned(entry.money_earned || 0);
-        setGoalId(entry.goal_id || null);
+        setGoalId(entry.goal_id);
       }
     } else {
       setDate(null);
       setHoursWorked(0);
       setMoneyEarned(0);
-      setGoalId(goals[0]?.id || null);
+      setGoalId(goals[0]?.id);
     }
   }, [workEntryEditingId, workEntries, goals]);
 
@@ -55,7 +55,7 @@ export function WorkEntryForm() {
   }, [hoursWorked]);
 
   const handleSubmit = () => {
-    if (date && hoursWorked && moneyEarned && goalId) {
+    if (date && hoursWorked && moneyEarned) {
       const entry = {
         id: workEntryEditingId || undefined,
         work_date: date.toISOString().split("T")[0],
@@ -122,7 +122,7 @@ export function WorkEntryForm() {
           label="Goal"
           placeholder="Select a goal"
           value={goalId?.toString() || ""}
-          onChange={(value) => setGoalId(value ? Number(value) : null)}
+          onChange={(value) => setGoalId(value ? Number(value) : undefined)}
           data={goals.map((goal) => ({
             value: goal.id.toString(),
             label: goal.title || "",
