@@ -3,10 +3,12 @@ import { Tables } from "./database.types";
 export type UserDb = Tables<"users">;
 export type GoalDb = Tables<"goals">;
 export type WorkEntryDb = Tables<"work_entries">;
+export type ProjectDb = Tables<"projects">;
 
 export type User = Transform<UserDb> & { avatar: string };
 export type Goal = Transform<GoalDb>;
 export type WorkEntry = Transform<WorkEntryDb>;
+export type Project = Transform<ProjectDb>;
 
 type Transform<T> = NullToUndefined<T>;
 

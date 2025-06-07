@@ -41,6 +41,30 @@ export type Database = {
           },
         ]
       }
+      projects: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          owner_ids: number[] | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          owner_ids?: number[] | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          owner_ids?: number[] | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           email: string | null
