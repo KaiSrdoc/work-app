@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "./use-auth";
 import { supabase } from "@/libs/supabase/supabase";
-import { User } from "@/libs/supabase/entities.types";
+import { TableName, User } from "@/libs/supabase/entities.types";
 
 export function useGetCurrentUser() {
   return useQuery<User>({
@@ -9,7 +9,7 @@ export function useGetCurrentUser() {
     queryFn: async () => {
       const user = await getUser();
       const { data } = await supabase
-        .from("users")
+        .from(TableName.USER)
         .select("*")
         .eq("email", user.email)
         .single();

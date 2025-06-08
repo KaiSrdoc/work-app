@@ -1,13 +1,13 @@
 import { Table, ActionIcon } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
-import { useGetWorkEntries } from "../api/use-get-work-entries";
+import { useGetWork } from "../api/use-get-work";
 import { useGetGoals } from "../../goals/api/use-get-goals";
 import { useWorkStore } from "@/app/work.store";
 
-export function WorkEntriesTable() {
-  const { data: workEntries = [] } = useGetWorkEntries();
+export function WorkTable() {
+  const { data: work = [] } = useGetWork();
   const { data: goals = [] } = useGetGoals();
-  const { openEntryForm } = useWorkStore();
+  const { openWorkForm } = useWorkStore();
 
   const getGoalTitle = (goalId: number | null) => {
     return goals.find((goal) => goal.id === goalId)?.title || "No goal";
@@ -35,7 +35,7 @@ export function WorkEntriesTable() {
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {workEntries.map((entry) => (
+        {work.map((entry) => (
           <Table.Tr key={entry.id}>
             <Table.Td>{formatDate(entry.work_date || "")}</Table.Td>
             <Table.Td>{entry.hours_worked}</Table.Td>
@@ -45,7 +45,7 @@ export function WorkEntriesTable() {
               <ActionIcon
                 variant="subtle"
                 color="gray"
-                onClick={() => openEntryForm(entry.id)}
+                onClick={() => openWorkForm(entry.id)}
               >
                 <IconEdit size={16} />
               </ActionIcon>

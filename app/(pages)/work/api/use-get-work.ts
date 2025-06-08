@@ -1,16 +1,16 @@
 import { supabase } from "@/libs/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
-import { WorkEntry } from "@/libs/supabase/entities.types";
+import { TableName, Work } from "@/libs/supabase/entities.types";
 
-export function useGetWorkEntries() {
+export function useGetWork() {
   const { data: currentUser } = useGetCurrentUser();
-  return useQuery<WorkEntry[]>({
+  return useQuery<Work[]>({
     enabled: !!currentUser,
-    queryKey: ["useGetWorkEntries"],
+    queryKey: ["useGetWork"],
     queryFn: async () => {
       const { data } = await supabase
-        .from("work_entries")
+        .from(TableName.WORK)
         .select("*")
         .eq("user_id", currentUser?.id)
         .order("work_date", { ascending: false });

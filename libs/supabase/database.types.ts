@@ -83,7 +83,7 @@ export type Database = {
         }
         Relationships: []
       }
-      work_entries: {
+      work: {
         Row: {
           created_at: string
           goal_id: number | null

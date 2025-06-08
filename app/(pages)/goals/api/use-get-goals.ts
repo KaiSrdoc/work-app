@@ -1,7 +1,7 @@
 import { supabase } from "@/libs/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
-import { Goal } from "@/libs/supabase/entities.types";
+import { Goal, TableName } from "@/libs/supabase/entities.types";
 
 export function useGetGoals() {
   const { data: currentUser } = useGetCurrentUser();
@@ -10,7 +10,7 @@ export function useGetGoals() {
     queryKey: ["useGetGoals"],
     queryFn: async () => {
       const { data } = await supabase
-        .from("goals")
+        .from(TableName.GOAL)
         .select("*")
         .eq("user_id", currentUser?.id)
         .order("created_at", { ascending: true });

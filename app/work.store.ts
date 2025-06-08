@@ -1,16 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Goal, WorkEntry, Project } from "@/libs/supabase/entities.types";
+import { Goal, Work, Project } from "@/libs/supabase/entities.types";
 
 interface WorkStore {
   goalEditingId: Goal["id"] | null;
   isGoalFormOpen: boolean;
   openGoalForm: (editingId?: Goal["id"]) => void;
   closeGoalForm: () => void;
-  workEntryEditingId: WorkEntry["id"] | null;
-  isEntryFormOpen: boolean;
-  openEntryForm: (editingId?: WorkEntry["id"]) => void;
-  closeEntryForm: () => void;
+  workEditingId: Work["id"] | null;
+  isWorkFormOpen: boolean;
+  openWorkForm: (editingId?: Work["id"]) => void;
+  closeWorkForm: () => void;
   projectEditingId: Project["id"] | null;
   isProjectFormOpen: boolean;
   openProjectForm: (editingId?: Project["id"]) => void;
@@ -32,17 +32,17 @@ export const useWorkStore = create<WorkStore>()(
           isGoalFormOpen: false,
           goalEditingId: null,
         }),
-      workEntryEditingId: null,
-      isEntryFormOpen: false,
-      openEntryForm: (editingId) =>
+      workEditingId: null,
+      isWorkFormOpen: false,
+      openWorkForm: (editingId) =>
         set({
-          isEntryFormOpen: true,
-          workEntryEditingId: editingId ?? null,
+          isWorkFormOpen: true,
+          workEditingId: editingId ?? null,
         }),
-      closeEntryForm: () =>
+      closeWorkForm: () =>
         set({
-          isEntryFormOpen: false,
-          workEntryEditingId: null,
+          isWorkFormOpen: false,
+          workEditingId: null,
         }),
       projectEditingId: null,
       isProjectFormOpen: false,

@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 import { useWorkStore } from "@/app/work.store";
-import { useGetWorkEntries } from "../../work/api/use-get-work-entries";
+import { useGetWork } from "../../work/api/use-get-work";
 import { Goal } from "@/libs/supabase/entities.types";
 
 interface GoalProgressProps {
@@ -18,9 +18,9 @@ interface GoalProgressProps {
 
 export function GoalProgress({ goal }: GoalProgressProps) {
   const { openGoalForm } = useWorkStore();
-  const { data: workEntries = [] } = useGetWorkEntries();
+  const { data: work = [] } = useGetWork();
 
-  const totalMoneyEarned = workEntries
+  const totalMoneyEarned = work
     .filter((entry) => entry.goal_id === goal.id)
     .reduce((sum, entry) => sum + (entry.money_earned || 0), 0);
   const goalPercentage = (totalMoneyEarned / (goal.total || 0)) * 100;

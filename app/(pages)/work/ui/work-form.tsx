@@ -13,18 +13,17 @@ import { DatePicker } from "@mantine/dates";
 import { useState, useEffect } from "react";
 import { useWorkStore } from "@/app/work.store";
 import { IconTrash } from "@tabler/icons-react";
-import { useGetWorkEntries } from "../api/use-get-work-entries";
-import { useUpsertWorkEntry } from "../api/use-upsert-work-entries";
-import { useDeleteWorkEntry } from "../api/use-delete-work-entry";
+import { useGetWork } from "../api/use-get-work";
+import { useUpsertWork } from "../api/use-upsert-work";
+import { useDeleteWork } from "../api/use-delete-work";
 import { useGetGoals } from "../../goals/api/use-get-goals";
 
-export function WorkEntryForm() {
-  const { isEntryFormOpen, workEntryEditingId, closeEntryForm } =
-    useWorkStore();
-  const { data: workEntries = [] } = useGetWorkEntries();
+export function WorkForm() {
+  const { isWorkFormOpen, workEditingId, closeWorkForm } = useWorkStore();
+  const { data: work = [] } = useGetWork();
   const { data: goals = [] } = useGetGoals();
-  const { mutate: upsertWorkEntry } = useUpsertWorkEntry();
-  const { mutate: deleteWorkEntry } = useDeleteWorkEntry();
+  const { mutate: upsertWork } = useUpsertWork();
+  const { mutate: deleteWork } = useDeleteWork();
 
   const [date, setDate] = useState<Date | null>(null);
   const [hoursWorked, setHoursWorked] = useState<number | "">(0);
@@ -32,8 +31,8 @@ export function WorkEntryForm() {
   const [goalId, setGoalId] = useState<number>();
 
   useEffect(() => {
-    if (workEntryEditingId !== null) {
-      const entry = workEntries.find((e) => e.id === workEntryEditingId);
+    if (workEditingId !== null) {
+      const entry = work.find((e) => e.id === workEditingId);
       if (entry) {
         setDate(entry.work_date ? new Date(entry.work_date) : null);
         setHoursWorked(entry.hours_worked || 0);
@@ -46,7 +45,7 @@ export function WorkEntryForm() {
       setMoneyEarned(0);
       setGoalId(goals[0]?.id);
     }
-  }, [workEntryEditingId, workEntries, goals]);
+  }, [workEditingId, work, goals]);
 
   useEffect(() => {
     if (hoursWorked !== "") {
@@ -57,21 +56,21 @@ export function WorkEntryForm() {
   const handleSubmit = () => {
     if (date && hoursWorked && moneyEarned) {
       const entry = {
-        id: workEntryEditingId || undefined,
+        id: workEditingId || undefined,
         work_date: date.toISOString().split("T")[0],
         hours_worked: Number(hoursWorked),
         money_earned: Number(moneyEarned),
         goal_id: goalId,
       };
-      upsertWorkEntry(entry);
-      closeEntryForm();
+      upsertWork(entry);
+      closeWorkForm();
     }
   };
 
   const handleDelete = () => {
-    if (workEntryEditingId) {
-      deleteWorkEntry(workEntryEditingId);
-      closeEntryForm();
+    if (workEditingId) {
+      deleteWork(workEditingId);
+      closeWorkForm();
     }
   };
 
@@ -81,14 +80,14 @@ export function WorkEntryForm() {
 
   return (
     <Modal
-      opened={isEntryFormOpen}
-      onClose={closeEntryForm}
+      opened={isWorkFormOpen}
+      onClose={closeWorkForm}
       title={
         <Group justify="space-between" align="center">
           <Text size="xl" fw={700}>
-            {workEntryEditingId !== null ? "Edit Work Entry" : "Add Work Entry"}
+            {workEditingId !== null ? "Edit Work Work" : "Add Work Work"}
           </Text>
-          {workEntryEditingId !== null && (
+          {workEditingId !== null && (
             <Tooltip label="Delete entry">
               <ActionIcon variant="subtle" color="red" onClick={handleDelete}>
                 <IconTrash size={16} />
@@ -129,7 +128,7 @@ export function WorkEntryForm() {
           }))}
         />
         <Button onClick={handleSubmit}>
-          {workEntryEditingId !== null ? "Update" : "Save"}
+          {workEditingId !== null ? "Update" : "Save"}
         </Button>
       </Stack>
     </Modal>

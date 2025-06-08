@@ -1,7 +1,7 @@
 import { supabase } from "@/libs/supabase/supabase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentUser } from "../../users/api/use-get-user";
-import { Project } from "@/libs/supabase/entities.types";
+import { Project, TableName } from "@/libs/supabase/entities.types";
 
 export function useUpsertProject() {
   const { data: currentUser } = useGetCurrentUser();
@@ -10,7 +10,7 @@ export function useUpsertProject() {
     mutationFn: async (
       project: Omit<Project, "owner_ids" | "created_at" | "id">
     ) => {
-      const { error } = await supabase.from("projects").upsert({
+      const { error } = await supabase.from(TableName.PROJECT).upsert({
         ...project,
         owner_ids: [currentUser?.id],
       });

@@ -2,21 +2,21 @@
 
 import { Button, Container, Title } from "@mantine/core";
 import { Group } from "@mantine/core";
-import { WorkEntryForm } from "./ui/work-entry-form";
-import { WorkEntriesTable } from "./ui/work-entries-table";
+import { WorkForm } from "./ui/work-form";
+import { WorkTable } from "./ui/work-table";
 import { useWorkStore } from "@/app/work.store";
 
 export default function Work() {
-  const { openEntryForm } = useWorkStore();
+  const { openWorkForm } = useWorkStore();
 
   return (
     <Container size="lg" pt="xl">
       <Group justify="space-between" align="center" mb="md">
         <Title>Work</Title>
-        <Button onClick={() => openEntryForm()}>Add Work</Button>
+        <Button onClick={() => openWorkForm()}>Add Work</Button>
       </Group>
-      <WorkEntryForm />
-      <WorkEntriesTable />
+      <WorkForm />
+      <WorkTable />
     </Container>
   );
 }
