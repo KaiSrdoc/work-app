@@ -9,7 +9,7 @@ export function useGetCurrentUser() {
     queryFn: async () => {
       const user = await getUser();
       const { data } = await supabase
-        .from(TableName.USER)
+        .from(TableName.USERS)
         .select("*")
         .eq("email", user.email)
         .single();

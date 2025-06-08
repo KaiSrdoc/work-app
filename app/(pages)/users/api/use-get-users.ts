@@ -6,7 +6,7 @@ export function useGetUsers() {
   return useQuery<User[]>({
     queryKey: ["useGetUsers"],
     queryFn: async () => {
-      const { data } = await supabase.from(TableName.USER).select("*");
+      const { data } = await supabase.from(TableName.USERS).select("*");
       return data ? data : [];
     },
   });

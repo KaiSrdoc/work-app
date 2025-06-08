@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Goal, Work, Project } from "@/libs/supabase/entities.types";
+import { Goal, Work, Project, Task } from "@/libs/supabase/entities.types";
 
 interface WorkStore {
   goalEditingId: Goal["id"] | null;
@@ -15,6 +15,10 @@ interface WorkStore {
   isProjectFormOpen: boolean;
   openProjectForm: (editingId?: Project["id"]) => void;
   closeProjectForm: () => void;
+  taskEditingId: Task["id"] | null;
+  isTaskFormOpen: boolean;
+  openTaskForm: (editingId?: Task["id"]) => void;
+  closeTaskForm: () => void;
 }
 
 export const useWorkStore = create<WorkStore>()(
@@ -55,6 +59,18 @@ export const useWorkStore = create<WorkStore>()(
         set({
           isProjectFormOpen: false,
           projectEditingId: null,
+        }),
+      taskEditingId: null,
+      isTaskFormOpen: false,
+      openTaskForm: (editingId) =>
+        set({
+          isTaskFormOpen: true,
+          taskEditingId: editingId ?? null,
+        }),
+      closeTaskForm: () =>
+        set({
+          isTaskFormOpen: false,
+          taskEditingId: null,
         }),
     }),
     {

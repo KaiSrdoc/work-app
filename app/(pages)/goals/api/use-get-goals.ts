@@ -10,7 +10,7 @@ export function useGetGoals() {
     queryKey: ["useGetGoals"],
     queryFn: async () => {
       const { data } = await supabase
-        .from(TableName.GOAL)
+        .from(TableName.GOALS)
         .select("*")
         .eq("user_id", currentUser?.id)
         .order("created_at", { ascending: true });

@@ -1,21 +1,24 @@
 import { Tables } from "./database.types";
 
 export enum TableName {
+  GOALS = "goals",
+  PROJECTS = "projects",
+  TASKS = "tasks",
+  USERS = "users",
   WORK = "work",
-  GOAL = "goals",
-  PROJECT = "projects",
-  USER = "users",
 }
 
-export type UserDb = Tables<TableName.USER>;
-export type GoalDb = Tables<TableName.GOAL>;
+export type GoalDb = Tables<TableName.GOALS>;
+export type ProjectDb = Tables<TableName.PROJECTS>;
+export type TaskDb = Tables<TableName.TASKS>;
+export type UserDb = Tables<TableName.USERS>;
 export type WorkDb = Tables<TableName.WORK>;
-export type ProjectDb = Tables<TableName.PROJECT>;
 
-export type User = Transform<UserDb> & { avatar: string };
 export type Goal = Transform<GoalDb>;
-export type Work = Transform<WorkDb>;
 export type Project = Transform<ProjectDb>;
+export type Task = Transform<TaskDb>;
+export type User = Transform<UserDb> & { avatar: string };
+export type Work = Transform<WorkDb>;
 
 type Transform<T> = NullToUndefined<T>;
 

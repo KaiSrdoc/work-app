@@ -8,7 +8,7 @@ export function useUpsertGoal() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (goal: Omit<Goal, "user_id" | "created_at" | "id">) => {
-      const { error } = await supabase.from(TableName.GOAL).upsert({
+      const { error } = await supabase.from(TableName.GOALS).upsert({
         ...goal,
         user_id: currentUser?.id,
       });

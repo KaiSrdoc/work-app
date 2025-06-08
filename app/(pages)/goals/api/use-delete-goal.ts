@@ -7,7 +7,7 @@ export function useDeleteGoal() {
   return useMutation({
     mutationFn: async (id: number) => {
       const { error } = await supabase
-        .from(TableName.GOAL)
+        .from(TableName.GOALS)
         .delete()
         .eq("id", id);
       if (error) throw error;

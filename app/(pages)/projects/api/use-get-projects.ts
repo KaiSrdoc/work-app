@@ -10,7 +10,7 @@ export function useGetProjects() {
     queryKey: ["useGetProjects"],
     queryFn: async () => {
       const { data } = await supabase
-        .from(TableName.PROJECT)
+        .from(TableName.PROJECTS)
         .select("*")
         .contains("owner_ids", [currentUser?.id])
         .order("created_at", { ascending: true });

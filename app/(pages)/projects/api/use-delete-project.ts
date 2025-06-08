@@ -7,7 +7,7 @@ export function useDeleteProject() {
   return useMutation({
     mutationFn: async (id: number) => {
       const { error } = await supabase
-        .from(TableName.PROJECT)
+        .from(TableName.PROJECTS)
         .delete()
         .eq("id", id);
       if (error) throw error;

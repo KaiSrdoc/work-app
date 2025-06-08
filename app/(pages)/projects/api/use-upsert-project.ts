@@ -10,7 +10,7 @@ export function useUpsertProject() {
     mutationFn: async (
       project: Omit<Project, "owner_ids" | "created_at" | "id">
     ) => {
-      const { error } = await supabase.from(TableName.PROJECT).upsert({
+      const { error } = await supabase.from(TableName.PROJECTS).upsert({
         ...project,
         owner_ids: [currentUser?.id],
       });
