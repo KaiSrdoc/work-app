@@ -1,9 +1,11 @@
 "use client";
 
-import { Table, Badge } from "@mantine/core";
+import { Table, Badge, ActionIcon } from "@mantine/core";
+import { IconEdit } from "@tabler/icons-react";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useGetProjects } from "@/app/(pages)/projects/api/use-get-projects";
 import { useGetUsers } from "@/app/(pages)/users/api/use-get-users";
+import { useWorkStore } from "@/app/work.store";
 import { TaskStatus } from "@/libs/supabase/entities.types";
 
 const statusColorMap: Record<TaskStatus, string> = {
@@ -12,11 +14,19 @@ const statusColorMap: Record<TaskStatus, string> = {
   done: "green",
 };
 
+const formatStatus = (status: TaskStatus): string => {
+  return status
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 export function TaskTable() {
   const { data: tasks = [], isLoading: isLoadingTasks } = useGetTasks();
   const { data: projects = [], isLoading: isLoadingProjects } =
     useGetProjects();
   const { data: users = [], isLoading: isLoadingUsers } = useGetUsers();
+  const { openTaskForm } = useWorkStore();
 
   if (isLoadingTasks || isLoadingProjects || isLoadingUsers) {
     return <div>Loading...</div>;
@@ -47,6 +57,7 @@ export function TaskTable() {
           <Table.Th>Status</Table.Th>
           <Table.Th>Project</Table.Th>
           <Table.Th>Owners</Table.Th>
+          <Table.Th>Actions</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -55,10 +66,21 @@ export function TaskTable() {
             <Table.Td>{task.title}</Table.Td>
             <Table.Td>{task.description}</Table.Td>
             <Table.Td>
-              <Badge color={statusColorMap[task.status]}>{task.status}</Badge>
+              <Badge color={statusColorMap[task.status]}>
+                {formatStatus(task.status)}
+              </Badge>
             </Table.Td>
             <Table.Td>{getProjectName(task.project_id)}</Table.Td>
             <Table.Td>{getOwnerNames(task.owner_ids)}</Table.Td>
+            <Table.Td>
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={() => openTaskForm(task.id)}
+              >
+                <IconEdit size={16} />
+              </ActionIcon>
+            </Table.Td>
           </Table.Tr>
         ))}
       </Table.Tbody>
