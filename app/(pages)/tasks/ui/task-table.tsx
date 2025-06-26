@@ -4,6 +4,13 @@ import { Table, Badge } from "@mantine/core";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useGetProjects } from "@/app/(pages)/projects/api/use-get-projects";
 import { useGetUsers } from "@/app/(pages)/users/api/use-get-users";
+import { TaskStatus } from "@/libs/supabase/entities.types";
+
+const statusColorMap: Record<TaskStatus, string> = {
+  todo: "blue",
+  in_progress: "yellow",
+  done: "green",
+};
 
 export function TaskTable() {
   const { data: tasks = [], isLoading: isLoadingTasks } = useGetTasks();
@@ -48,9 +55,7 @@ export function TaskTable() {
             <Table.Td>{task.title}</Table.Td>
             <Table.Td>{task.description}</Table.Td>
             <Table.Td>
-              <Badge color={task.status === "completed" ? "green" : "blue"}>
-                {task.status || "pending"}
-              </Badge>
+              <Badge color={statusColorMap[task.status]}>{task.status}</Badge>
             </Table.Td>
             <Table.Td>{getProjectName(task.project_id)}</Table.Td>
             <Table.Td>{getOwnerNames(task.owner_ids)}</Table.Td>

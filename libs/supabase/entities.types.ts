@@ -16,7 +16,7 @@ export type WorkDb = Tables<TableName.WORK>;
 
 export type Goal = Transform<GoalDb>;
 export type Project = Transform<ProjectDb>;
-export type Task = Transform<TaskDb>;
+export type TaskBase = Transform<TaskDb>;
 export type User = Transform<UserDb> & { avatar: string };
 export type Work = Transform<WorkDb>;
 
@@ -27,3 +27,9 @@ type NullToUndefined<T> = T extends null
   : T extends object
   ? { [K in keyof T]: NullToUndefined<T[K]> }
   : T;
+
+export type TaskStatus = "todo" | "in_progress" | "done";
+
+export type Task = Omit<TaskBase, "status"> & {
+  status: TaskStatus;
+};
